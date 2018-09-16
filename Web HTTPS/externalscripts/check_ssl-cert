@@ -1,0 +1,15 @@
+#! /bin/bash
+
+SERVER=$1
+PORT=$2
+TIMEOUT=25
+
+my_dir="$(dirname "$0")"
+
+days=$(timeout $TIMEOUT "$my_dir/util/ssl-cert-check" -s $SERVER -p $PORT -n | sed 's/  */ /g' | cut -f6 -d" " | sed 's/^|days=//g')
+
+if [[ -z $days ]]
+then
+	days=0
+fi
+echo $days
