@@ -1,0 +1,25 @@
+#! /bin/bash
+
+KEY=$1
+
+temp=$(mktemp)
+
+if [ "$KEY" == "TEST" ];
+then
+  echo "TEST" > "$temp"
+  result=0
+else
+  wget -q -O "$temp" "https://sendersupport.olc.protection.outlook.com/snds/ipStatus.aspx?key=$KEY"
+  result=$?
+fi
+
+if [ $result -gt 0 ];
+then
+  lines=-1
+else
+  lines=$(wc -l < "$temp")
+fi
+
+rm "$temp"
+
+echo $lines
