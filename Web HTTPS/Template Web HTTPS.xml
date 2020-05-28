@@ -1,193 +1,218 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>3.4</version>
-    <date>2018-09-16T18:00:25Z</date>
-    <groups>
-        <group>
-            <name>SharedTemplates</name>
-        </group>
-        <group>
-            <name>Templates/Custom</name>
-        </group>
-    </groups>
-    <templates>
-        <template>
-            <template>Template Web HTTPS</template>
-            <name>Template Web HTTPS</name>
-            <description/>
-            <groups>
-                <group>
-                    <name>SharedTemplates</name>
-                </group>
-                <group>
-                    <name>Templates/Custom</name>
-                </group>
-            </groups>
-            <applications>
-                <application>
-                    <name>Web</name>
-                </application>
-            </applications>
-            <items>
-                <item>
-                    <name>Web HTTPS Certificate expiration days</name>
-                    <type>10</type>
-                    <snmp_community/>
-                    <snmp_oid/>
-                    <key>check_ssl-cert[&quot;{HOST.CONN}&quot;,&quot;443&quot;]</key>
-                    <delay>1d</delay>
-                    <history>365d</history>
-                    <trends>365d</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>Web</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                    <preprocessing/>
-                    <jmx_endpoint/>
-                    <master_item/>
-                </item>
-            </items>
-            <discovery_rules/>
-            <httptests>
-                <httptest>
-                    <name>Web HTTPS</name>
-                    <application>
-                        <name>Web</name>
-                    </application>
-                    <delay>5m</delay>
-                    <attempts>1</attempts>
-                    <agent>Zabbix</agent>
-                    <http_proxy/>
-                    <variables/>
-                    <headers/>
-                    <status>0</status>
-                    <authentication>0</authentication>
-                    <http_user/>
-                    <http_password/>
-                    <verify_peer>1</verify_peer>
-                    <verify_host>1</verify_host>
-                    <ssl_cert_file/>
-                    <ssl_key_file/>
-                    <ssl_key_password/>
-                    <steps>
-                        <step>
-                            <name>Web HTTPS</name>
-                            <url>https://{HOST.CONN}</url>
-                            <query_fields/>
-                            <posts/>
-                            <variables/>
-                            <headers/>
-                            <follow_redirects>1</follow_redirects>
-                            <retrieve_mode>0</retrieve_mode>
-                            <timeout>15s</timeout>
-                            <required>{$WEB_HTTP_REQUIRED_STRING}</required>
-                            <status_codes>{$WEB_HTTP_REQUIRED_STATUSCODE}</status_codes>
-                        </step>
-                    </steps>
-                </httptest>
-            </httptests>
-            <macros>
-                <macro>
-                    <macro>{$WEB_HTTP_REQUIRED_STATUSCODE}</macro>
-                    <value>200</value>
-                </macro>
-                <macro>
-                    <macro>{$WEB_HTTP_REQUIRED_STRING}</macro>
-                    <value/>
-                </macro>
-            </macros>
-            <templates/>
-            <screens/>
-        </template>
-    </templates>
-    <triggers>
-        <trigger>
-            <expression>{Template Web HTTPS:check_ssl-cert[&quot;{HOST.CONN}&quot;,&quot;443&quot;].last()}&lt;29</expression>
-            <recovery_mode>0</recovery_mode>
-            <recovery_expression/>
-            <name>Web HTTPS Certificate imminent expiration</name>
-            <correlation_mode>0</correlation_mode>
-            <correlation_tag/>
-            <url/>
-            <status>0</status>
-            <priority>2</priority>
-            <description/>
-            <type>0</type>
-            <manual_close>0</manual_close>
-            <dependencies/>
-            <tags/>
-        </trigger>
-        <trigger>
-            <expression>{Template Web HTTPS:web.test.fail[Web HTTPS].last()}&lt;&gt;0</expression>
-            <recovery_mode>0</recovery_mode>
-            <recovery_expression/>
-            <name>Web HTTPS request DOWN</name>
-            <correlation_mode>0</correlation_mode>
-            <correlation_tag/>
-            <url/>
-            <status>0</status>
-            <priority>3</priority>
-            <description/>
-            <type>0</type>
-            <manual_close>0</manual_close>
-            <dependencies/>
-            <tags/>
-        </trigger>
-        <trigger>
-            <expression>{Template Web HTTPS:web.test.rspcode[Web HTTPS,Web HTTPS].last()}&lt;&gt;{$WEB_HTTP_REQUIRED_STATUSCODE}</expression>
-            <recovery_mode>0</recovery_mode>
-            <recovery_expression/>
-            <name>Web HTTPS request ERROR</name>
-            <correlation_mode>0</correlation_mode>
-            <correlation_tag/>
-            <url/>
-            <status>0</status>
-            <priority>2</priority>
-            <description/>
-            <type>0</type>
-            <manual_close>0</manual_close>
-            <dependencies/>
-            <tags/>
-        </trigger>
-        <trigger>
-            <expression>{Template Web HTTPS:web.test.time[Web HTTPS,Web HTTPS,resp].last()}&gt;3000</expression>
-            <recovery_mode>0</recovery_mode>
-            <recovery_expression/>
-            <name>Web HTTPS request SLOW</name>
-            <correlation_mode>0</correlation_mode>
-            <correlation_tag/>
-            <url/>
-            <status>0</status>
-            <priority>2</priority>
-            <description/>
-            <type>0</type>
-            <manual_close>0</manual_close>
-            <dependencies/>
-            <tags/>
-        </trigger>
-    </triggers>
+<version>4.4</version>
+<date>2020-05-28T21:00:45Z</date>
+<groups>
+<group>
+<name>SharedTemplates</name>
+</group>
+<group>
+<name>Templates/Custom</name>
+</group>
+</groups>
+<templates>
+<template>
+<template>Template Web HTTPS</template>
+<name>Template Web HTTPS</name>
+<groups>
+<group>
+<name>SharedTemplates</name>
+</group>
+<group>
+<name>Templates/Custom</name>
+</group>
+</groups>
+<applications>
+<application>
+<name>Web</name>
+</application>
+</applications>
+<items>
+<item>
+<name>Qualys SSL Labs</name>
+<type>EXTERNAL</type>
+<key>check_qualys-ssllabs["{HOST.CONN}"]</key>
+<delay>1h</delay>
+<trends>0</trends>
+<value_type>TEXT</value_type>
+<applications>
+<application>
+<name>Web</name>
+</application>
+</applications>
+<preprocessing>
+<step>
+<type>DISCARD_UNCHANGED</type>
+<params/>
+</step>
+</preprocessing>
+</item>
+<item>
+<name>Web HTTPS Certificate expiration days</name>
+<type>EXTERNAL</type>
+<key>check_ssl-cert["{HOST.CONN}","443"]</key>
+<delay>1d</delay>
+<history>365d</history>
+<applications>
+<application>
+<name>Web</name>
+</application>
+</applications>
+<request_method>POST</request_method>
+<triggers>
+<trigger>
+<expression>{last()}<{$WEB_HTTPS_CERT_DAYS}</expression>
+<name>Web HTTPS Certificate imminent expiration</name>
+<priority>WARNING</priority>
+</trigger>
+</triggers>
+</item>
+<item>
+<name>Qualys SSL Labs - Grades</name>
+<type>DEPENDENT</type>
+<key>qualys-ssllabs-grades</key>
+<delay>0</delay>
+<trends>0</trends>
+<value_type>TEXT</value_type>
+<applications>
+<application>
+<name>Web</name>
+</application>
+</applications>
+<preprocessing>
+<step>
+<type>JSONPATH</type>
+<params>$.endpoints[:].grade</params>
+</step>
+</preprocessing>
+<master_item>
+<key>check_qualys-ssllabs["{HOST.CONN}"]</key>
+</master_item>
+</item>
+<item>
+<name>Qualys SSL Labs - Score</name>
+<type>DEPENDENT</type>
+<key>qualys-ssllabs-score</key>
+<delay>0</delay>
+<applications>
+<application>
+<name>Web</name>
+</application>
+</applications>
+<preprocessing>
+<step>
+<type>JAVASCRIPT</type>
+<params>var grades = JSON.parse(value); var minScore = 1000; for (var i = 0; i < grades.length; i++) { var grade = grades[i]; var score; if (grades[i] === "A+") { score = 100; } else if (grades[i] === "A") { score = 90; } else if (grades[i] === "A-") { score = 80; } else if (grades[i] === "B") { score = 70; } else if (grades[i] === "C") { score = 60; } else if (grades[i] === "D") { score = 50; } else if (grades[i] === "E") { score = 40; } else if (grades[i] === "F") { score = 30; } else if (grades[i] === "T") { score = 20; } else if (grades[i] === "M") { score = 10; } if (score < minScore) { minScore = score; } } if (minScore == 1000) { minScore = 0; } return minScore;</params>
+</step>
+</preprocessing>
+<master_item>
+<key>qualys-ssllabs-grades</key>
+</master_item>
+<triggers>
+<trigger>
+<expression>{last()}<70</expression>
+<name>Qualys SSL Labs reports inadequate security</name>
+<url>https://www.ssllabs.com/ssltest/analyze.html?d={HOST.CONN}</url>
+<priority>WARNING</priority>
+</trigger>
+<trigger>
+<expression>{diff()}=1</expression>
+<name>Qualys SSL Labs security grade changed</name>
+<url>https://www.ssllabs.com/ssltest/analyze.html?d={HOST.CONN}</url>
+<priority>WARNING</priority>
+</trigger>
+</triggers>
+</item>
+<item>
+<name>Qualys SSL Labs - Test time</name>
+<type>DEPENDENT</type>
+<key>qualys-ssllabs-testtime</key>
+<delay>0</delay>
+<units>unixtime</units>
+<applications>
+<application>
+<name>Web</name>
+</application>
+</applications>
+<preprocessing>
+<step>
+<type>JSONPATH</type>
+<params>$.testTime</params>
+</step>
+<step>
+<type>MULTIPLIER</type>
+<params>.001</params>
+</step>
+</preprocessing>
+<master_item>
+<key>check_qualys-ssllabs["{HOST.CONN}"]</key>
+</master_item>
+</item>
+</items>
+<httptests>
+<httptest>
+<name>Web HTTPS</name>
+<application>
+<name>Web</name>
+</application>
+<delay>5m</delay>
+<verify_peer>YES</verify_peer>
+<verify_host>YES</verify_host>
+<steps>
+<step>
+<name>Web HTTPS</name>
+<url>https://{HOST.CONN}{$WEB_HTTP_PAGE}</url>
+<required>{$WEB_HTTP_REQUIRED_STRING}</required>
+<status_codes>{$WEB_HTTP_REQUIRED_STATUSCODE}</status_codes>
+</step>
+</steps>
+</httptest>
+</httptests>
+<macros>
+<macro>
+<macro>{$WEB_HTTPS_CERT_DAYS}</macro>
+<value>29</value>
+</macro>
+<macro>
+<macro>{$WEB_HTTP_DOWN_ITERATIONS}</macro>
+<value>#1</value>
+</macro>
+<macro>
+<macro>{$WEB_HTTP_PAGE}</macro>
+<value>/</value>
+</macro>
+<macro>
+<macro>{$WEB_HTTP_REQUIRED_STATUSCODE}</macro>
+<value>200</value>
+</macro>
+<macro>
+<macro>{$WEB_HTTP_REQUIRED_STRING}</macro>
+</macro>
+<macro>
+<macro>{$WEB_HTTP_SLOW_AVG1H_THRESHOLD}</macro>
+<value>3</value>
+</macro>
+<macro>
+<macro>{$WEB_HTTP_SLOW_MIN1H_THRESHOLD}</macro>
+<value>2</value>
+</macro>
+</macros>
+</template>
+</templates>
+<triggers>
+<trigger>
+<expression>{Template Web HTTPS:web.test.fail[Web HTTPS].count({$WEB_HTTP_DOWN_ITERATIONS}, 0)}=0</expression>
+<name>Web HTTPS request DOWN</name>
+<priority>AVERAGE</priority>
+</trigger>
+<trigger>
+<expression>{Template Web HTTPS:web.test.rspcode[Web HTTPS,Web HTTPS].count({$WEB_HTTP_DOWN_ITERATIONS}, {$WEB_HTTP_REQUIRED_STATUSCODE})} = 0</expression>
+<name>Web HTTPS request ERROR</name>
+<priority>WARNING</priority>
+</trigger>
+<trigger>
+<expression>{Template Web HTTPS:web.test.time[Web HTTPS,Web HTTPS,resp].avg(1h)}>={$WEB_HTTP_SLOW_AVG1H_THRESHOLD} or {Template Web HTTPS:web.test.time[Web HTTPS,Web HTTPS,resp].min(1h)}>={$WEB_HTTP_SLOW_MIN1H_THRESHOLD}</expression>
+<name>Web HTTPS request SLOW</name>
+<priority>WARNING</priority>
+</trigger>
+</triggers>
 </zabbix_export>

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+HOST="$1"
+
+WORKINGFOLDER=/var/lib/zabbix/check_qualys-ssllabs
+
+mkdir -p "$WORKINGFOLDER"
+
+REQ="$WORKINGFOLDER/req-$HOST"
+RSP="$WORKINGFOLDER/rsp-$HOST"
+
+# if request file doesn't exist, create it
+if [ ! -f "$REQ" ]; then
+  touch "$REQ"
+fi
+
+# if response file exists, output it
+if [ -f "$RSP" ]; then
+  cat "$RSP"
+fi
