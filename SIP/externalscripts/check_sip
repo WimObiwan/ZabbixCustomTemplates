@@ -146,6 +146,7 @@ sub buildReq
   $req .= "Max-Forwards: 70\n";
   $req .= "User-agent: check_sip $VERSION\n";
   $req .= "Accept: text/plain\n";
+  $req .= "\n";
   return $req;
 }
 
